@@ -20,27 +20,21 @@ public class StringCalculator {
         }
     }
 
-    // Вычисление значения выражения
     private static int calculateExpression(String expression) {
-        // Определение знака первого числа
         boolean isFirstNegative = expression.charAt(0) == '-' && Character.isDigit(expression.charAt(1));
         if (isFirstNegative)
             expression = expression.substring(1);
 
-        // Разбиение строки на токены
         expression = expression.replaceAll(" ", "");
         String[] tokens = expression.split("[+\\-*/]");
 
-        // Проверка на количество токенов
         if (tokens.length > 3 || tokens.length < 2)
             throw new IllegalArgumentException("Неправильный формат выражения.");
 
-        // Проверка токенов на правильный формат
         for (int i = 0; i < tokens.length; ++i)
             if (tokens[i].length() == 0)
                 throw new IllegalArgumentException("Неправильный формат выражения.");
 
-        // Извлечение чисел и операций из токенов
         int a = getValidNumber(tokens[0]);
         if (isFirstNegative) {
             a = -a;
@@ -55,7 +49,6 @@ public class StringCalculator {
             c = getValidNumber(tokens[2]);
         }
 
-        // Проверка на поддерживаемую комбинацию операций
         if ((operation1 == '+' || operation1 == '-' || operation1 == '/' || operation1 == '*')
                 && (operation2 == '+' || operation2 == '-' || operation2 == '/' || operation2 == '*'))
             return calculate(a, b, c, operation1, operation2);
@@ -63,7 +56,6 @@ public class StringCalculator {
             throw new IllegalArgumentException("Неподдерживаемая комбинация операций.");
     }
 
-    // Извлечение корректного числа из токена
     private static int getValidNumber(String token) {
         int number = 0;
         try {
@@ -77,7 +69,6 @@ public class StringCalculator {
         return number;
     }
 
-    // Вычисление результата
     private static int calculate(int a, int b, int c, char operation1, char operation2) {
         if (operation1 == '+' && operation2 == '+')
             return a + b + c;
